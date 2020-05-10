@@ -20,13 +20,22 @@
         data: {
             labels: data.xs,
             datasets: [{
-                label: 'Combined Land-Surface Air and Sea-Surface Water Temperature Anomalies in °C',
+                label: 'Global Temperature in °C',
                 data: data.ys,
                 fill:false,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                borderColor: 'rgba(255, 99, 132, 1)',
+                borderColor:'rgba(255, 99, 132, 1)',
                 borderWidth: 1
-            }]
+            },
+            {
+                label: 'Northern Hemisphere Temperature in °C',
+                data: data.northern,
+                fill:false,
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                borderColor:'rgba(43, 100, 255, 1)',
+                borderWidth: 1
+            }
+            ]
         },
         options: {
         scales: {
@@ -46,6 +55,7 @@
         async function getData(){
             const xs = [];
             const ys = [];
+            const northern= [];
 
             const response = await fetch('ZonAnn.Ts+dSST.csv');
             const data = await response.text();
@@ -58,9 +68,10 @@
                 const temp = columns[1];
                 ys.push(parseFloat(temp) + 14);
                 const nhem = columns[2];
-                console.log(year,temp,nhem);
+                northern.push(parseFloat(nhem) + 14);
+                
             });
-            return {xs,ys}; 
+            return {xs,ys,northern}; 
         }
 
     
